@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>API GateWay(网关)那些儿事 | 诺诺清蔓</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="一个对技术追求的Java萌妹子">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="API GateWay(网关)那些儿事 | 诺诺清蔓">
+    <meta name="twitter:description" content="一个对技术追求的Java萌妹子">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="API GateWay(网关)那些儿事 | 诺诺清蔓">
+    <meta property="og:description" content="一个对技术追求的Java萌妹子">
+
+    
+    <meta name="author" content="吕清燕">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="诺诺清蔓" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://lvqingyan.com/sc-zuul/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(http://simg.sinajs.cn/blog7newtpl/image/30/30_2/images/bg.gif)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 诺诺清蔓 的主页"><img src="/images/avatar.jpg" width="120" alt="诺诺清蔓 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for 诺诺清蔓">诺诺清蔓</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">简单，美好，奋发</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">一个对技术追求的Java萌妹子</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+            <li class="navigation__item"><a href="/">首页</a></li>
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">文字阁</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/llqm" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/llqm" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-disabled"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-05-10T06:00:00.000Z" class="post-list__meta--date date">2017-05-10</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+ </span>
+      <span class="page-pv">
+       阅读 <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">API GateWay(网关)那些儿事</h1>
+  </header>
+
+  <section class="post">
+    <p><strong>前言</strong>:现在越来越多的技术团队开始尝试采纳微服务架构进行产品开发。而基于微服务架构后后端服务通常而言是动态的，为了简化前端的调用逻辑，通常会引入API Gateway作为轻量级网关，同时API Gateway中也会实现相关的认证逻辑从而简化内部服务之间相互调用的复杂度，这边文章我们就来聊聊API Gateway的那些事。<br> 关键字：<strong>API Gateway</strong>, <strong>Spring Cloud Zuul</strong>, <strong>Nginx</strong>，<strong>Consul</strong>，<strong>Consul-Template</strong>。</p>
+<h2 id="为什么需要API-Gateway"><a href="#为什么需要API-Gateway" class="headerlink" title="为什么需要API Gateway"></a>为什么需要API Gateway</h2><ul>
+<li>简化客户端调用复杂度</li>
+</ul>
+<p>在微服务架构模式下后端服务的实例数一般是动态的，对于客户端而言如何发现这些动态改变的服务实例的访问地址信息？因此在基于微服务的项目中为了简化前端的调用逻辑，通常会引入API Gateway作为轻量级网关，同时API Gateway中也会实现相关的认证逻辑从而简化内部服务之间相互调用的复杂度。<br><a id="more"></a><br><img src="/images/sc-study/gw.png" alt=""></p>
+<ul>
+<li>数据裁剪以及聚合</li>
+</ul>
+<p>通常而言多余不同的客户端对于显示时对于数据的需求是不一致的，比如手机端或者Web端又或者在低延迟的网络环境或者高延迟的网络环境。</p>
+<p>因此为了优化客户端的使用体验，API Gateway可以对通用性的响应数据进行裁剪以适应不同客户端的使用需求。同时还可以将多个API调用逻辑进行聚合，从而减少客户端的请求数，优化客户端用户体验</p>
+<ul>
+<li>多渠道支持</li>
+</ul>
+<p>当然我们还可以针对不同的渠道和客户端提供不同的API Gateway,对于该模式的使用由另外一个大家熟知的方式叫<strong>Backend for front-end</strong>, 在Backend for front-end模式当中，我们可以针对不同的客户端分别创建其BFF</p>
+<p><img src="/images/sc-study/gw1.png" alt=""></p>
+<ul>
+<li>遗留系统的微服务化改造</li>
+</ul>
+<p>对于系统系统而言进行微服务改造通常是由于原有的系统存在或多或少的问题，比如技术债务，代码质量，可维护性，可扩展性等等。API Gateway的模式同样适用于这一类遗留系统的改造，通过微服务化的改造逐步实现对原有系统中的问题的修复，从而提升对于原有业务<strong>响应力</strong>的提升。<strong>通过引入抽象层，逐步使用新的实现替换旧的实现。</strong></p>
+<p><img src="/images/sc-study/gw2.png" alt=""></p>
+<h2 id="使用Zuul实现API网关"><a href="#使用Zuul实现API网关" class="headerlink" title="使用Zuul实现API网关"></a>使用Zuul实现API网关</h2><p>Spring Cloud的Zuul组件提供了轻量级网关的功能支持，通过定义路由规则可以快速实现一个轻量级的API网关</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">zuul:</div><div class="line">  ignoredPatterns: /api/auth</div><div class="line">  sensitive-headers: &quot;*&quot;</div><div class="line">  ignoreLocalService: true</div><div class="line">  retryable: false</div><div class="line">  host:</div><div class="line">    max-total-connections: 500</div><div class="line">  routes:</div><div class="line">    service01:</div><div class="line">      path: /service01/**</div><div class="line">      serviceId: service01</div><div class="line">      stripPrefix: true</div><div class="line">    thirdpart:</div><div class="line">      pateh: /thirdpart/**</div><div class="line">      url: http://thirdpart.api.com</div></pre></td></tr></table></figure>
+<p>同时除了通过serviceId关联已经注册到Consul的服务实例以外，我们也可以通过zuul直接定义实现对已有服务的直接集成。</p>
+<p>这里我们就不过多介绍Zuul的细节，在实际使用中我们会发现直接使用Zuul会存在诸多问题，包括：</p>
+<ul>
+<li>性能问题：当存在大量请求超时后会造成Zuul阻塞，目前只能通过横向扩展Zuul实例实现对高并发的支持；</li>
+<li>WebSocket的支持问题： Zuul中并不直接提供对WebSocket的支持，需要添加额外的过滤器实现对WebSocket的支持；<br><img src="/images/sc-study/gw-scoket.jpg" alt=""><br>为了解决以上问题，可以通过在Zuul前端部署Nginx实现对Zuul实例的反向代理，同时适当的通过添加Cache以及请求压缩减少对后端Zuul实例的压力。</li>
+</ul>
+<p><img src="/images/sc-study/gw3.png" alt=""></p>
+<h2 id="实现Nginx的动态代理"><a href="#实现Nginx的动态代理" class="headerlink" title="实现Nginx的动态代理"></a>实现Nginx的动态代理</h2><p>通过Nginx我们可以实现对多实例Zuul的请求代理，同时通过添加适当的缓存以及请求压缩配置可以提升前端UI的请求响应时间。这里需要解决的问题是Nginx如何动态发现Zuul实例信息并且将请求转发到Zuul当中。</p>
+<p><a href="https://github.com/hashicorp/consul-template" target="_blank" rel="external">consul-template</a>可以帮助我们解决以上问题,consul-template是一个命令行工具，结合consul实现配置文件的动态生成并且支持在配置文件发生变化后触发用户自定义命令。</p>
+<p>我们使用了如下的Dockerfile用于构建我们的Nginx服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">FROM nginx:1.11.10</div><div class="line"></div><div class="line">ADD consul-template /usr/local/bin</div><div class="line"></div><div class="line">RUN mkdir /etc/consul-templates</div><div class="line"></div><div class="line"># 模板文件</div><div class="line">ADD nginx.tpl /etc/consul-templates/nginx.tpl</div><div class="line">ENV CT_FILE /etc/consul-templates/nginx.tpl</div><div class="line"></div><div class="line">ENV NX_FILE /etc/nginx/conf.d/default.conf # 目标文件</div><div class="line"></div><div class="line">ENV SERVICE identity # 注册在Consul的服务名</div><div class="line"></div><div class="line">COPY dist /usr/share/nginx/html</div><div class="line">RUN mkdir -p /data/cache</div><div class="line"></div><div class="line">CMD /usr/sbin/nginx -c /etc/nginx/nginx.conf  \</div><div class="line">  &amp; CONSUL_TEMPLATE_LOG=debug \</div><div class="line">  consul-template -consul-addr=$CONSUL -template &quot;$CT_FILE:$NX_FILE:/usr/sbin/nginx -s reload&quot;;</div></pre></td></tr></table></figure>
+<p>Nginx配置模板文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"># nginx.tpl</div><div class="line">upstream api_server &#123;</div><div class="line">  least_conn;</div><div class="line">  &#123;&#123;range service &quot;identity&quot;&#125;&#125;</div><div class="line">  server  &#123;&#123;.Address&#125;&#125;:&#123;&#123;.Port&#125;&#125;;</div><div class="line">  &#123;&#123;else&#125;&#125;server 127.0.0.1:9191;&#123;&#123;end&#125;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen       80;</div><div class="line">    server_name  localhost;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        root   /usr/share/nginx/html;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    location /api &#123;</div><div class="line">      proxy_pass http://api_server;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream api_server &#123;</div><div class="line">  least_conn;</div><div class="line">  &#123;&#123;range service &quot;identity&quot;&#125;&#125;</div><div class="line">  server  &#123;&#123;.Address&#125;&#125;:&#123;&#123;.Port&#125;&#125;;</div><div class="line">  &#123;&#123;else&#125;&#125;server 127.0.0.1:9191;&#123;&#123;end&#125;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>会根据当前consul中注册的所有identity服务实例进行模板渲染，并且当配置文件内容发生变化后调用nginx -s reload重新加载Nginx配置从而实现对于后端服务实例的动态代理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">CMD /usr/sbin/nginx -c /etc/nginx/nginx.conf  \</div><div class="line">  &amp; CONSUL_TEMPLATE_LOG=debug \</div><div class="line">  consul-template -consul-addr=$CONSUL -template &quot;$CT_FILE:$NX_FILE:/usr/sbin/nginx -s reload&quot;;</div></pre></td></tr></table></figure>
+<h2 id="其它的一些优化建议"><a href="#其它的一些优化建议" class="headerlink" title="其它的一些优化建议"></a>其它的一些优化建议</h2><p>启用Nginx的Gzip可以对服务器端响应内容进行压缩从而减少一定的客户端响应时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">gzip on;</div><div class="line">gzip_min_length 1k;</div><div class="line">gzip_buffers  4 32k;</div><div class="line">gzip_types    text/plain application/x-javascript application/javascript text/xml text/css;</div><div class="line">gzip_vary on;</div></pre></td></tr></table></figure>
+<p>缓存图片以及其它静态资源可以减少对Zuul实例的请求量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">proxy_buffering on;</div><div class="line">proxy_cache_valid any 10m;</div><div class="line">proxy_cache_path /data/cache levels=1:2 keys_zone=my-cache:8m max_size=1000m inactive=600m;</div><div class="line">proxy_temp_path /data/temp;</div><div class="line">proxy_buffer_size 4k;</div><div class="line">proxy_buffers 100 8k;</div><div class="line"></div><div class="line">location ~* (images)    &#123;</div><div class="line">  proxy_pass http://api_server;</div><div class="line">  # cache setting</div><div class="line">  proxy_cache my-cache;</div><div class="line">  proxy_cache_valid 200;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果需要通过Nginx实现对Websocket的代理可以添加一下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">location /sockjs &#123;</div><div class="line">    proxy_pass http://api_server;</div><div class="line"></div><div class="line">    proxy_set_header X-Real-IP $remote_addr;</div><div class="line">    proxy_set_header Host $host;</div><div class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</div><div class="line"></div><div class="line">    # WebSocket support (nginx 1.4)</div><div class="line">    proxy_http_version 1.1;</div><div class="line">    proxy_set_header Upgrade $http_upgrade;</div><div class="line">    proxy_set_header Connection &quot;upgrade&quot;;</div><div class="line">    proxy_connect_timeout 90;</div><div class="line">    proxy_send_timeout 90;</div><div class="line">    proxy_read_timeout 90;</div><div class="line"></div><div class="line">    # !!!Support Spring Boot</div><div class="line">    proxy_pass_header X-XSRF-TOKEN;</div><div class="line">    proxy_set_header Origin &quot;http://localhost:4000&quot;;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-fegin01/" title="快速使用Spring Cloud Feign作为客户端调用服务提供者">快速使用Spring Cloud Feign作为客户端调用服务提供者</a></h2>
+                <p class="excerpt">
+                
+                前言 在使用Spring Cloud开发微服务应用时中，各个微服务服务提供者都是以HTTP接口的形式对外提供服务，因此服务消费者在调用服务提供者时，通过HTTP Client的方式访问。当然我们可以使用JDK原生的URLConnection、Apache的Http Client、Netty的异步HTTP Client, Spring的RestTemplate去实现服务间的调用。Spring Cloud对Fegin进行了增强，使Fegin支持了Spring MVC的注解，并整合了Ribbon和Eureka，从而让Fegin的使用更加方便。
+Feign简介Feign是一种声明式、模板化的HTTP客户端。在Spring Cloud中使用Feign, 可以做到使用HTTP请求远程服务时能就像调用本地方法一样的体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。Feign的Github网址,比如：Feign具有如下特性：
+
+可插拔的注解支持，包括Feign注解和JAX-RS注解
+支持可插拔的HTTP编码器和解码器
+支持Hystrix和它的Fallback
+支持Ribbon的负载均衡
+支持HTTP请求和响应的压缩
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-05-13T06:00:00.000Z" class="post-list__meta--date date">2017-05-13</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Fegin/">Spring Cloud Fegin</a>
+</span><a class="btn-border-small" href="/sc-fegin01/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-zuul-01/" title="Spring  Cloud Zuul的URL转发和路由规则">Spring  Cloud Zuul的URL转发和路由规则</a></h2>
+                <p class="excerpt">
+                
+                摘要:最近开了《跟我学Spring Cloud》系列教程,由于最近比较忙，因此更新较慢。由于自己最近在研究基于Netty名为Janus的网关中间件分为janus-Server端和janus-console管控端，纳管Spring Cloud实现市面上网关85%以上的功能，将在2017年5月6号Spring Cloud中国社区北京技术沙龙分享。顺便抽时间把Spring Cloud Zuul相关的东西整理比较。在本篇文章中Spring Cloud的版本更换为Dalston.RELEASE，Spring Boot的版本为1.5.2.RELEASE。
+Spring Cloud Zuul Spring Cloud Zuul 通过与 Spring Cloud Eureka 进行整合，将自身注册到 Eureka Server中，与Eureka,Ribbon,Hystrix等整合，同时从 Eureka 中获得了所有其它微服务的实例信息。这样的设计通过把网关和服务治理整合到一起，Spring Cloud Zuul可以获取到服务注册信息，结合Ribbon，Hystrix等更好的实现路由转发，负载均衡等功能。想了解更多的内容，可以参考下面的中英文对照翻译文档。或者查看官网文档。   Spring Cloud Zuul中英文对照翻译①  Spring Cloud Zuul中英文对照翻译②   Spring Cloud Zuul中英文对照翻译③
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-04-30T06:00:00.000Z" class="post-list__meta--date date">2017-04-30</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+</span><a class="btn-border-small" href="/sc-zuul-01/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 吕清燕 - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建。
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

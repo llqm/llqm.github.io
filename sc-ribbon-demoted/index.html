@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>在Spring Cloud中实现降级之权重路由和标签路由 | 诺诺清蔓</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="限流、降级、灰度是服务治理的一个很重要的功能。 Dubbo自带服务降级、限流功能，spring cloud并没有提供此功 能，只能由我们自行实现。这里的限流、降级、灰度都是针对服务 实例级别，并不是整个服务级别，整个服务级别可以通过实例部署 数量来实现。">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="在Spring Cloud中实现降级之权重路由和标签路由 | 诺诺清蔓">
+    <meta name="twitter:description" content="限流、降级、灰度是服务治理的一个很重要的功能。 Dubbo自带服务降级、限流功能，spring cloud并没有提供此功 能，只能由我们自行实现。这里的限流、降级、灰度都是针对服务 实例级别，并不是整个服务级别，整个服务级别可以通过实例部署 数量来实现。">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="在Spring Cloud中实现降级之权重路由和标签路由 | 诺诺清蔓">
+    <meta property="og:description" content="限流、降级、灰度是服务治理的一个很重要的功能。 Dubbo自带服务降级、限流功能，spring cloud并没有提供此功 能，只能由我们自行实现。这里的限流、降级、灰度都是针对服务 实例级别，并不是整个服务级别，整个服务级别可以通过实例部署 数量来实现。">
+
+    
+    <meta name="author" content="吕清燕">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="诺诺清蔓" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://lvqingyan.com/sc-ribbon-demoted/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(http://simg.sinajs.cn/blog7newtpl/image/30/30_2/images/bg.gif)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 诺诺清蔓 的主页"><img src="/images/avatar.jpg" width="120" alt="诺诺清蔓 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for 诺诺清蔓">诺诺清蔓</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">简单，美好，奋发</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">一个对技术追求的Java萌妹子</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+            <li class="navigation__item"><a href="/">首页</a></li>
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">文字阁</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/llqm" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/llqm" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-disabled"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-06-03T06:00:00.000Z" class="post-list__meta--date date">2017-06-03</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Ribbon/">Spring Cloud Ribbon</a>
+ </span>
+      <span class="page-pv">
+       阅读 <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">在Spring Cloud中实现降级之权重路由和标签路由</h1>
+  </header>
+
+  <section class="post">
+    <p><strong>前言</strong> 限流、降级、灰度是服务治理的一个很重要的功能。本文参考<a href="http://www.jianshu.com/p/37ee1e84900a" target="_blank" rel="external">Spring Cloud中国社区的VIP会员-何鹰的博客-整理</a><br>Dubbo自带服务降级、限流功能，spring cloud并没有提供此功能，只能由我们自行实现。这里的限流、降级、灰度都是针对服务实例级别，并不是整个服务级别，整个服务级别可以通过实例部署数量来实现。</p>
+<h2 id="限流降级设计"><a href="#限流降级设计" class="headerlink" title="限流降级设计"></a>限流降级设计</h2><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>服务A，部署了3个实例A1、A2、A3。spring cloud默认客户端负载均衡策略是采用轮询方式，A1、A2、A3三个实例流量均分，各1/3。如果这个时候需要将服务A由1.0版升级至2.0版，我们需要做的步骤是：将A1的流量降为0，柔性下线，关闭A1实例并升级到2.0，将A1流量提升为10%观察2.0线上运行情况，如果情况稳定，则逐步开放流量至不限制及1/3。依次在A2，A3上执行上述操作。<br>在上述步骤中，我们想让特别的人使用2.0，其他人还是使用1.0版，稳定后再全员开放。<br><a id="more"></a></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>分析，服务A的流量产生有两个方面，一个是外部流量，外网通过zuul过来的流量，一个是内部流量，服务间调用，服务B调用服务A的这类流量。不管是zuul还是内部服务来的，都是要通过ribbon做客户端负载均衡，我们可以修改ribbon负载均衡策略来实现上述限流、降级、灰度功能。</p>
+<p>要实现这些想法，我们需要对spring-cloud的各个组件、数据流非常熟悉，这样才能知道该在哪里做扩展。一个典型的调用：外网-》Zuul网关-》服务A-》服务B。。。</p>
+<p>spring-cloud跟dubbo一样都是客户端负载均衡，所有调用均由Ribbon来做负载均衡选择服务器，所有调用前后会套一层hystrix做隔离、熔断。服务间调用均用带LoadBalanced注解的RestTemplate发出。RestTemplate-》Ribbon-》hystrix</p>
+<p>通过上述分析我们可以看到，我们的扩展点就在Ribbon，Ribbon根据我们的规则，选择正确的服务器即可。</p>
+<p>我们先来一个dubbo自带的功能：基于权重的流量控制。dubbo自带的控制台可以设置服务实例粒度的半权，倍权。其实就是在客户端负载均衡时，选择服务器带上权重即可，spring-cloud默认是ZoneAvoidanceRule，优先选择相同Zone下的实例，实例间采用轮询方式做负载均衡。我们的想把基于轮询改为基于权重即可。接下来的问题是，每个实例的权重信息保存在哪里？从哪里取？dubbo放在zookeeper中，spring-cloud放在eureka中。我们只需从eureka拿每个实例的权重信息，然后根据权重来选择服务器即可。具体代码LabelAndWeightMetadataRule（先忽略里面的优先匹配label相关代码）。</p>
+<h2 id="工程案例演示"><a href="#工程案例演示" class="headerlink" title="工程案例演示"></a>工程案例演示</h2><p><img src="/images/sc-study/sc-r-d02.png" alt="工程目录"></p>
+<blockquote>
+<p><a href="https://github.com/SoftwareKing/spring-cloud-study/tree/master/sc-ribbon-demoted" target="_blank" rel="external">https://github.com/SoftwareKing/spring-cloud-study/tree/master/sc-ribbon-demoted</a></p>
+</blockquote>
+<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><ol>
+<li><p>config 配置中心<br>端口：8888，方便起见直接读取配置文件，生产环境可以读取git。application-dev.properties为全局配置。先启动配置中心，所有服务的配置（包括注册中心的地址）均从配置中心读取。</p>
+</li>
+<li><p>consumer 服务消费者<br>端口：18090，调用服务提供者，为了演示header传递。</p>
+</li>
+<li><p>core 框架核心包<br>核心jar包，所有微服务均引用该包，使用AutoConfig实现免配置，模拟生产环境下spring-cloud的使用。</p>
+</li>
+<li><p>eureka 注册中心<br>端口：8761，/metadata端点实现metadata信息配置。</p>
+</li>
+<li><p>provider 服务提供者<br>端口：18090，服务提供者，无特殊逻辑。</p>
+</li>
+<li><p>zuul 网关<br>端口：8080，演示解析token获得label并放入header往后传递</p>
+</li>
+</ol>
+<h2 id="案例具体实现"><a href="#案例具体实现" class="headerlink" title="案例具体实现"></a>案例具体实现</h2><h3 id="基于权重的实现思路"><a href="#基于权重的实现思路" class="headerlink" title="基于权重的实现思路"></a>基于权重的实现思路</h3><p>LabelAndWeightMetadataRule写好了，那么我们如何使用它，使之生效呢？有3种方式。</p>
+<p>1）写个AutoConfig将LabelAndWeightMetadataRule声明成@Bean，用来替换默认的ZoneAvoidanceRule。这种方式在技术验证、开发测试阶段使用短平快。但是这种方式是强制全局设置，无法个性化。</p>
+<p>2）由于spring-cloud的Ribbon并没有实现netflix Ribbon的所有配置项。netflix配置全局rule方式为：ribbon.NFLoadBalancerRuleClassName=package.YourRule，spring-cloud并不支持，spring-cloud直接到服务粒度，只支持SERVICE_ID.ribbon.NFLoadBalancerRuleClassName=package.YourRule。</p>
+<blockquote>
+<p>我们可以扩展org.springframework.cloud.netflix.ribbon.PropertiesFactory修正spring cloud ribbon未能完全支持netflix ribbon配置的问题。这样我们可以将全局配置写到配置中心的application-dev.properties全局配置中，然后各个微服务还可以根据自身情况做个性化定制。但是PropertiesFactory属性均为私有，应该是spring cloud不建议在此扩展。参见<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/1741。" target="_blank" rel="external">https://github.com/spring-cloud/spring-cloud-netflix/issues/1741。</a></p>
+</blockquote>
+<p>3）使用spring cloud官方建议的@RibbonClient方式。该方式仅存在于spring-cloud单元测试中（在我提问后，现在还存在于spring-cloud issue list）。具体代码参见DefaultRibbonConfiguration.java、CoreAutoConfiguration.java。</p>
+<blockquote>
+<p>目前采用第三种方式处理</p>
+</blockquote>
+<h3 id="基于权重的路由测试"><a href="#基于权重的路由测试" class="headerlink" title="基于权重的路由测试"></a>基于权重的路由测试</h3><p>依次开启 config eureka provide（开两个实例，通过启动参数server.port指定不同端口区分） consumer zuul<br>访问 <a href="http://localhost:8761/metadata.html" target="_blank" rel="external">http://localhost:8761/metadata.html</a> 这是我手写的一个简单的metadata管理界面，分别设置两个provider实例的weight值（设置完需要一段2分钟才能生效），然后访问 <a href="http://localhost:8080/provider/user" target="_blank" rel="external">http://localhost:8080/provider/user</a> 多刷几次来测试zuul是否按权重发送请求，也可以访问 <a href="http://localhost:8080/consumer/test" target="_blank" rel="external">http://localhost:8080/consumer/test</a> 多刷几次来测试consumer是否按权重来调用provide服务。</p>
+<h3 id="基于标签的路由处理"><a href="#基于标签的路由处理" class="headerlink" title="基于标签的路由处理"></a>基于标签的路由处理</h3><p>基于权重的搞定之后，接下来才是重头戏：基于标签的路由。入口请求含有各种标签，然后我们可以根据标签幻化出各种各样的路由规则。例如只有标注为粉丝的用户才使用新版本（灰度、AB、金丝雀），例如标注为中国的用户请求必须发送到中国的服务器（全球部署），例如标注为写的请求必须发送到专门的写服务实例（读写分离），等等等等，唯一限制你的就是你的想象力。</p>
+<h4 id="基于标签的路由实现思路"><a href="#基于标签的路由实现思路" class="headerlink" title="基于标签的路由实现思路"></a>基于标签的路由实现思路</h4><p>根据标签的控制，我们当然放到之前写的Ribbon的rule中，每个实例配置的不同规则也是跟之前一样放到注册中心的metadata中。需要解决以下几个问题:</p>
+<p><strong>Q:关键是标签数据如何传过来?</strong></p>
+<blockquote>
+<p>A:权重随机的实现思路里面有答案，请求都通过zuul进来，因此我们可以在zuul里面给请求打标签，基于用户，IP或其他看你的需求，然后将标签信息放入ThreadLocal中，然后在Ribbon Rule中从ThreadLocal拿出来使用就可以了。</p>
+<p>然而，按照这个方式去实验时，发现有问题，拿不到ThreadLocal。原因是有hystrix这个东西，回忆下hystrix的原理，为了做到故障隔离，hystrix启用了自己的线程，不在同一个线程ThreadLocal失效。</p>
+</blockquote>
+<p>那么还有什么办法能够将标签信息一传到底呢，想想之前有没有人实现过类似的东西，没错sleuth，它的链路跟踪就能够将span传递下去，翻翻sleuth源码，找找其他资料，发现可以使用HystrixRequestVariableDefault，这里不建议直接使用HystrixConcurrencyStrategy，会和sleuth的strategy冲突。代码参见CoreHeaderInterceptor.java。现在可以测试zuul里面的rule，看能否拿到标签内容了。</p>
+<blockquote>
+<p>标签传到HystrixRequestVariableDefault这里的，如果项目中没有使用Hystrix就用不了了,这个时候需要做一个判断在restTemple里面做个判断，没有hystrix就直接threadlocal取。</p>
+</blockquote>
+<p><strong>Q:这里还不是终点，解决了zuul的路由，服务A调服务B这里的路由怎么处理呢？zuul算出来的标签如何往后面依次传递下去呢?</strong></p>
+<p>   我们还是抄sleuth：把标签放入header，服务A调服务B时，将服务A header里面的标签放到服务B的header里，依次传递下去。这里的关键点就是：内部的微服务在接收到发来的请求时(zuul-&gt;A，A-&gt;B）我们将请求放入ThreadLocal，哦，不对，是HystrixRequestVariableDefault，还记得上面说的原因么：）。<br>   这个容易处理，写一个spring mvc拦截器即可，代码参见CoreHeaderInterceptor。然后发送请求时自动带上这个里面保存的标签信息，参见RestTemplate的拦截器CoreHttpRequestInterceptor。到此为止，技术上全部走通实现。</p>
+<blockquote>
+<p>总结一下：zuul依据用户或IP等计算标签，并将标签放入header里向后传递，后续的微服务通过拦截器，将header里的标签放入RestTemplate请求的header里继续向后接力传递。标签的内容通过放入类似于ThreadLocal的全局变量（HystrixRequestVariableDefault），使Ribbon Rule可以使用。</p>
+</blockquote>
+<h3 id="基于标签路由的测试"><a href="#基于标签路由的测试" class="headerlink" title="基于标签路由的测试"></a>基于标签路由的测试</h3><p>参见PreFilter源码，模拟了几个用户的标签，参见LabelAndWeightMetadataRule源码，模拟了OR AND两种标签处理策略。依次开启 config eureka provide（开两个实例，通过启动参数server.port指定不同端口区分） consumer zuul.</p>
+<p><img src="/images/sc-study/sc-r-d03.png" alt="测试"></p>
+<hr>
+<p><img src="/images/sc-study/sc-r-d01.png" alt="测试"><br>访问 <a href="http://localhost:8761/metadata.html" target="_blank" rel="external">http://localhost:8761/metadata.html</a> 设置第一个provide 实例 orLabel为 CN,Test 发送请求头带入Authorization: emt 访问<a href="http://localhost:8080/provider/user" target="_blank" rel="external">http://localhost:8080/provider/user</a> 多刷几次，可以看到zuul所有请求均路由给了第一个实例。访问<a href="http://localhost:8080/consumer/test" target="_blank" rel="external">http://localhost:8080/consumer/test</a> 多刷几次，可以看到，consumer调用均路由给了第一个实例。</p>
+<p>设置第二个provide 实例 andLabel为 EN,Male 发送请求头带入Authorization: em 访问<a href="http://localhost:8080/provider/user" target="_blank" rel="external">http://localhost:8080/provider/user</a> 多刷几次，可以看到zuul所有请求均路由给了第二个实例。访问<a href="http://localhost:8080/consumer/test" target="_blank" rel="external">http://localhost:8080/consumer/test</a> 多刷几次，可以看到，consumer调用均路由给了第二个实例。</p>
+<p>Authorization头还可以设置为PreFilter里面的模拟token来做测试，至此所有内容讲解完毕，技术路线拉通，剩下的就是根据需求来完善你自己的路由策略啦。</p>
+<h2 id="伪代码分析实现流程"><a href="#伪代码分析实现流程" class="headerlink" title="伪代码分析实现流程"></a>伪代码分析实现流程</h2><h3 id="伪代码示例"><a href="#伪代码示例" class="headerlink" title="伪代码示例"></a>伪代码示例</h3><p>Ribbon默认采用ZoneAvoidanceRule，优先选择同zone下的实例。我们继承这个rule并扩展我们自己的限流功能，仔细阅读ZoneAvoidanceRule及其父类源码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeightedMetadataRule</span> <span class="keyword">extends</span> <span class="title">ZoneAvoidanceRule</span> </span>&#123;</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String META_DATA_KEY_WEIGHT = <span class="string">"weight"</span>;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> Server <span class="title">choose</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line">    List&lt;Server&gt; serverList = <span class="keyword">this</span>.getPredicate().getEligibleServers(<span class="keyword">this</span>.getLoadBalancer().getAllServers(), key);</div><div class="line">    <span class="keyword">if</span> (CollectionUtils.isEmpty(serverList)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 计算总值并剔除0权重节点</span></div><div class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">    Map&lt;Server, Integer&gt; serverWeightMap = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    <span class="keyword">for</span> (Server server : serverList) &#123;</div><div class="line">        String strWeight = ((DiscoveryEnabledServer) server).getInstanceInfo().getMetadata().get(META_DATA_KEY_WEIGHT);</div><div class="line"></div><div class="line">        <span class="keyword">int</span> weight = <span class="number">100</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            weight = Integer.parseInt(strWeight);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            <span class="comment">// 无需处理</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (weight &lt;= <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        serverWeightMap.put(server, weight);</div><div class="line">        sum += weight;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 权重随机</span></div><div class="line">    <span class="keyword">int</span> random = (<span class="keyword">int</span>) (Math.random() * sum);</div><div class="line">    <span class="keyword">int</span> current = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (Map.Entry&lt;Server, Integer&gt; entry : serverWeightMap.entrySet()) &#123;</div><div class="line">        current += entry.getValue();</div><div class="line">        <span class="keyword">if</span> (random &lt; current) &#123;</div><div class="line">            <span class="keyword">return</span> entry.getKey();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使上述代码生效，在zuul网关中加入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Bean</span></div><div class="line"><span class="function"><span class="keyword">public</span> IRule <span class="title">weightedMetadataRule</span><span class="params">()</span></span>&#123;</div><div class="line">   <span class="keyword">return</span> <span class="keyword">new</span> WeightedMetadataRule();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="代码示例测试"><a href="#代码示例测试" class="headerlink" title="代码示例测试"></a>代码示例测试</h3><p>打断点测试是否进入WeightedMetadataRule，开启多个服务A实例，通过zuul访问服务A。<br>成功进入断点，代码生效后，我们再来看如何指定metadata。<br>访问eureka restful API （我的eureka服务器端口为8100，修改为你自己的eureka端口）<br>Get <a href="http://localhost:8100/eureka/apps" target="_blank" rel="external">http://localhost:8100/eureka/apps</a><br>这个api可以看到所有服务<br>Get <a href="http://localhost:8100/eureka/apps/YOUR_SERVICE_NAME" target="_blank" rel="external">http://localhost:8100/eureka/apps/YOUR_SERVICE_NAME</a><br>这个api可以看到你的服务信息，包括部署了哪些实例<br>Get <a href="http://localhost:8100/eureka/apps/YOUR_SERVICE_NAME/INSTANCE_ID" target="_blank" rel="external">http://localhost:8100/eureka/apps/YOUR_SERVICE_NAME/INSTANCE_ID</a><br>这个api可以看到服务实例的信息，注意其中的metadata节点，目前为empty<br>Put <a href="http://localhost:8100/eureka/apps/YOUR_SERVICE_NAME/INSTANCE_ID/metadata?weight=10" target="_blank" rel="external">http://localhost:8100/eureka/apps/YOUR_SERVICE_NAME/INSTANCE_ID/metadata?weight=10</a><br>通过put方式可以修改metadata的内容，放入weight，设为10</p>
+<p>然后稍等两分钟，让zuul更新注册中心中的信息，接着重新访问，调试就可以看到metadata的内容了，并且也是按照权重随机来进行流量限制的，至此hello world搞定。</p>
+<h3 id="生产上使用WeightedMetadataRule"><a href="#生产上使用WeightedMetadataRule" class="headerlink" title="生产上使用WeightedMetadataRule"></a>生产上使用WeightedMetadataRule</h3><p>接下来，在生产环境中，我们如何应用这个WeightedMetadataRule呢，有如下几种方式：</p>
+<h3 id="手动指定服务策略，"><a href="#手动指定服务策略，" class="headerlink" title="手动指定服务策略，"></a>手动指定服务策略，</h3><p>spring cloud ribbon并没有完整实现netflix ribbon的所有配置功能，负载策略默认只能配置微服务级别，无法配置全局默认值。<br>例如：只能配置 SOME_SERVICE_ID.ribbon.NFLoadBalancerRuleClassName=package.WeightedMetadataRule<br>而不支持配置全局默认值 ribbon.NFLoadBalancerRuleClassName=package.WeightedMetadataRule<br>这种方案明显不符合我们的要求。</p>
+<h3 id="通过声明Irule-spring-bean配置全局负载策略"><a href="#通过声明Irule-spring-bean配置全局负载策略" class="headerlink" title="通过声明Irule spring bean配置全局负载策略"></a>通过声明Irule spring bean配置全局负载策略</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Bean</span></div><div class="line"><span class="function"><span class="keyword">public</span> IRule <span class="title">weightedMetadataRule</span><span class="params">()</span></span>&#123;</div><div class="line">   <span class="keyword">return</span> <span class="keyword">new</span> WeightedMetadataRule();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这种方式也就是我们上面用的hello world方式，配置后强制所有微服务使用该策略，没有例外，微服务无法个性化定制策略，符合目前需求，但不适于长期规划。</p>
+</blockquote>
+<h3 id="继承重写PropertiesFactory"><a href="#继承重写PropertiesFactory" class="headerlink" title="继承重写PropertiesFactory"></a>继承重写PropertiesFactory</h3><p>继承重写org.springframework.cloud.netflix.ribbon.PropertiesFactory类，修正spring cloud ribbon未能完全支持netflix ribbon的问题。但是PropertiesFactory属性均为私有，应该是spring cloud不建议在此扩展。参见<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/1741" target="_blank" rel="external">https://github.com/spring-cloud/spring-cloud-netflix/issues/1741</a></p>
+<h3 id="使用spring-cloud官方建议的-RibbonClient方式"><a href="#使用spring-cloud官方建议的-RibbonClient方式" class="headerlink" title="使用spring cloud官方建议的@RibbonClient方式"></a>使用spring cloud官方建议的@RibbonClient方式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@RibbonClients</span>(defaultConfiguration = DefaultRibbonConfiguration.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultRibbonConfiguration</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;ribbon.client.name:#&#123;null&#125;&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)</div><div class="line">    <span class="keyword">private</span> IClientConfig config;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> PropertiesFactory propertiesFactory;</div><div class="line"></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> IRule <span class="title">ribbonRule</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (StringUtils.isEmpty(name)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.propertiesFactory.isSet(IRule.class, name)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.propertiesFactory.get(IRule.class, config, name);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// 默认配置</span></div><div class="line">        WeightedMetadataRule rule = <span class="keyword">new</span> WeightedMetadataRule();</div><div class="line">        rule.initWithNiwsConfig(config);</div><div class="line">        <span class="keyword">return</span> rule;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>关于权重随机的性能，上述代码用的数组分段查找法，还可以采用TreeMap二分查找法。可以将权重数组或权重TreeMap缓存起来。<br>根据测试，在实例数量为50个时 缓存权重数组和权重TreeMap，数组分段查找百万次耗时78-125ms，TreeMap二分耗时50-80ms。</p>
+<p>这篇文章只是把技术打通，至于如何根据服务器负载情况，自动降级，限流等需求，只需要监控服务器状况，调用eureka接口设置metadata即可（其实我个人建议这方面需求通过docker的自动扩容缩容完成，只是有朋友问到如何通过spring cloud实现）。</p>
+<p>下一篇会写基于标签的流量控制。如何控制部分用户使用服务A2.0，其他用户使用服务A1.0。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://calvin1978.blogcn.com/articles/routing.html" target="_blank" rel="external">江南白衣-服务化之－路由</a><br><a href="http://www.jianshu.com/p/37ee1e84900a" target="_blank" rel="external">SpringCloud Ribbon 降级、限流、灰度发布</a></p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-feign-4xx/" title="Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题">Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题</a></h2>
+                <p class="excerpt">
+                
+                前言 最近好几个小伙伴，问Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题。这个问题如果没有自定义异常自定义Code或者系统中没有自定义code为401或407的code，基本很少能碰到。刚好Spring Cloud中国社区的VIP会员任聪博客原文也遇到这个，经过和他交流之后。整理出这篇文章希望能帮助更多的人快速定位问题。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-06-16T06:00:00.000Z" class="post-list__meta--date date">2017-06-16</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Feign/">Spring Cloud Feign</a>
+</span><a class="btn-border-small" href="/sc-feign-4xx/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-fegin01/" title="快速使用Spring Cloud Feign作为客户端调用服务提供者">快速使用Spring Cloud Feign作为客户端调用服务提供者</a></h2>
+                <p class="excerpt">
+                
+                前言 在使用Spring Cloud开发微服务应用时中，各个微服务服务提供者都是以HTTP接口的形式对外提供服务，因此服务消费者在调用服务提供者时，通过HTTP Client的方式访问。当然我们可以使用JDK原生的URLConnection、Apache的Http Client、Netty的异步HTTP Client, Spring的RestTemplate去实现服务间的调用。Spring Cloud对Fegin进行了增强，使Fegin支持了Spring MVC的注解，并整合了Ribbon和Eureka，从而让Fegin的使用更加方便。
+Feign简介Feign是一种声明式、模板化的HTTP客户端。在Spring Cloud中使用Feign, 可以做到使用HTTP请求远程服务时能就像调用本地方法一样的体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。Feign的Github网址,比如：Feign具有如下特性：
+
+可插拔的注解支持，包括Feign注解和JAX-RS注解
+支持可插拔的HTTP编码器和解码器
+支持Hystrix和它的Fallback
+支持Ribbon的负载均衡
+支持HTTP请求和响应的压缩
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-05-13T06:00:00.000Z" class="post-list__meta--date date">2017-05-13</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Fegin/">Spring Cloud Fegin</a>
+</span><a class="btn-border-small" href="/sc-fegin01/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 吕清燕 - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建。
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>什么是Spring Cloud Config？ | 诺诺清蔓</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="一个对技术追求的Java萌妹子">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="什么是Spring Cloud Config？ | 诺诺清蔓">
+    <meta name="twitter:description" content="一个对技术追求的Java萌妹子">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="什么是Spring Cloud Config？ | 诺诺清蔓">
+    <meta property="og:description" content="一个对技术追求的Java萌妹子">
+
+    
+    <meta name="author" content="吕清燕">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="诺诺清蔓" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://lvqingyan.com/sc-config/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(http://simg.sinajs.cn/blog7newtpl/image/30/30_2/images/bg.gif)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 诺诺清蔓 的主页"><img src="/images/avatar.jpg" width="120" alt="诺诺清蔓 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for 诺诺清蔓">诺诺清蔓</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">简单，美好，奋发</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">一个对技术追求的Java萌妹子</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+            <li class="navigation__item"><a href="/">首页</a></li>
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">文字阁</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/llqm" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/llqm" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-disabled"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-10-19T06:00:00.000Z" class="post-list__meta--date date">2016-10-19</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Config/">Spring Cloud Config</a>
+ </span>
+      <span class="page-pv">
+       阅读 <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">什么是Spring Cloud Config？</h1>
+  </header>
+
+  <section class="post">
+    <p>前言:在单体应用中，我们一般的做法是把Property和Code放在一起，没有什么问题。但是在分布式系统中，由于存在多个服务实例，需要分别管理到每个具体的服务工程中的配置，上线需要准备check list 并逐个检查每个上线的服务是否正确。在系统上线之后修改某个配置，需要重启服务。这样开发就相当麻烦。因此我们急需需要把分布式系统中的配置信息抽取出来统一管理，服务获取系统信息时有一个覆盖顺序:property–&gt; Evn—-&gt;配置中心。这样修改环境变量或者修改配置中心的配置就能取到最新的配置信息。在唯品会 Venus Framework中我们专门设计了这个功能。Spring cloud出现之后，避免了大家重复造轮子。</p>
+<h2 id="什么是-Spring-Cloud-Config"><a href="#什么是-Spring-Cloud-Config" class="headerlink" title="什么是 Spring Cloud Config ?"></a>什么是 Spring Cloud Config ?</h2><p>其官方文档中对自己的定义是如下，官网连接:<a href="http://cloud.spring.io/spring-cloud-config/" target="_blank">Spring Cloud Config</a>。</p>
+<blockquote>
+<p>Spring Cloud Config provides server and client-side support for externalized configuration in a distributed system.<br>With the Config Server you have a central place to manage external properties for applications across all environments.</p>
+</blockquote>
+<p>简单来说，Spring Cloud Config就是我们通常意义上的配置中心 - 把应用原本放在本地文件的配置抽取出来放在中心服务器，从而能够提供更好的管理、发布能力。<br><a id="more"></a></p>
+<p>另外，Spring Cloud Config提供基于以下3个维度的配置管理：</p>
+<ul>
+<li><strong>应用</strong><ul>
+<li>这个比较好理解，每个配置都是属于某一个应用的</li>
+</ul>
+</li>
+<li><strong>环境</strong><ul>
+<li>每个配置都是区分环境的，如dev, test, prod等</li>
+</ul>
+</li>
+<li><strong>版本</strong><ul>
+<li>这个可能是一般的配置中心所缺乏的，就是对同一份配置的不同版本管理，比如:可以通过Git进行版本控制。</li>
+<li>Spring Cloud Config提供版本的支持，也就是说对于一个应用的不同部署实例，可以从服务端获取到不同版本的配置，这对于一些特殊场景如：灰度发布，A/B测试等提供了很好的支持。</li>
+</ul>
+</li>
+</ul>
+<h2 id="为什么会诞生Spring-Cloud-Config"><a href="#为什么会诞生Spring-Cloud-Config" class="headerlink" title="为什么会诞生Spring Cloud Config?"></a>为什么会诞生Spring Cloud Config?</h2><p>   配置中心目前现状:不管是开源的(百度的disconf)，还是一些公司自己闭源投入使用的产品已经不少了，那为什么还会诞生Spring Cloud Config呢？</p>
+<p>在我看来，Spring Cloud Config在以下几方面还是有比较独特的优势，如下：</p>
+<ul>
+<li><strong>基于应用、环境、版本三个维度管理</strong><ul>
+<li>这个在前面提过了，主要是有版本的支持</li>
+</ul>
+</li>
+<li><strong>配置存储支持Git</strong><ul>
+<li>这个就比较有特色了，后端基于Git存储，一方面程序员非常熟悉，另一方面在部署上会非常简单，而且借助于Git，天生就能非常好的支持版本</li>
+<li>当然，它还支持其它的存储如本地文件、SVN等</li>
+</ul>
+</li>
+<li><strong>和Spring无缝集成</strong><ul>
+<li>它无缝支持Spring里面<code>Environment</code>和<code>PropertySource</code>的接口</li>
+<li>所以对于已有的Spring应用程序的迁移成本非常低，在配置获取的接口上是完全一致的</li>
+</ul>
+</li>
+</ul>
+<h2 id="Spring-Cloud-Config-入门例子"><a href="#Spring-Cloud-Config-入门例子" class="headerlink" title="Spring Cloud Config 入门例子"></a>Spring Cloud Config 入门例子</h2><p>上述节点主要介绍了Spring cloud的相关理论，大家对Spring Cloud Config有了一个初步的认识，接下来例子让大家感受一下Spring cloud config的魅力。</p>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p><img src="/images/2016-10-18/overview.png" alt="Overview"></p>
+<p>上图简要描述了一个普通Spring Cloud Config应用的场景。其中主要有以下几个组件：</p>
+<ul>
+<li><em>Config Client</em><ul>
+<li>Client很好理解，就是使用了Spring Cloud Config的应用</li>
+<li>Spring Cloud Config提供了基于Spring的客户端，应用只要在代码中引入Spring Cloud Config Client的jar包即可工作</li>
+</ul>
+</li>
+<li><em>Config Server</em><ul>
+<li>Config Server是需要独立部署的一个web应用，它负责把git上的配置返回给客户端</li>
+</ul>
+</li>
+<li><em>Remote Git Repository</em><ul>
+<li>远程Git仓库，一般而言，我们会把配置放在一个远程仓库，通过现成的git客户端来管理配置</li>
+</ul>
+</li>
+<li><em>Local Git Repostiory</em><ul>
+<li>Config Server的本地Git仓库</li>
+<li>Config Server接到来自客户端的配置获取请求后，会先把远程仓库的配置clone到本地的临时目录，然后从临时目录读取配置并返回</li>
+</ul>
+</li>
+</ul>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-sleuth/" title="Spring Cloud Sleuth-全链路监控调研">Spring Cloud Sleuth-全链路监控调研</a></h2>
+                <p class="excerpt">
+                
+                前言:做过软件开发的都知道，对系统进行全链路的监控是非常有必要的。在单体应用中，传统的方式是软件开发者，通过自定义日志的level，日志文件的方式记录单体应用的运行日志。从而排查线上系统出现运行过慢，出现故障，异常等问题，但是在微服务架构或分布式系统中，一个系统被拆分成了A、B、C、D、E等多个服务，而每个服务可能又有多个实例组成集群，采用上诉定位问题的方式就行不通了，你充其量就知道某个服务是应用的瓶颈，但中间发生了什么你完全不知道。而且问题的查询，因为有海量各种各样的日志等文件，导致追溯定位问题等极其不方便。因此需要全链路监控系统的收集，上报，对海量日志实时计算生成，监控告警，视图报表，帮助开发人员快速定位问题。
+服务追踪分析一个由微服务构成的应用系统由N个服务实例组成，通过REST请求或者RPC协议等来通讯完成一个业务流程的调用。对于入口的一个调用可能需要有多个后台服务协同完成，链路上任何一个调用超时或出错都可能造成前端请求的失败。服务的调用链也会越来越长，并形成一个树形的调用链。如下图所示:
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-10-21T06:00:00.000Z" class="post-list__meta--date date">2016-10-21</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud/">Spring Cloud</a>, <a class="tag-link" href="/tags/Spring-Cloud-Sleuth/">Spring Cloud Sleuth</a>, <a class="tag-link" href="/tags/全链路监控/">全链路监控</a>, <a class="tag-link" href="/tags/微服务/">微服务</a>
+</span><a class="btn-border-small" href="/sc-sleuth/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-introduce/" title="Spring Cloud微服务框架主要子项目和RPC框架的对比">Spring Cloud微服务框架主要子项目和RPC框架的对比</a></h2>
+                <p class="excerpt">
+                
+                　摘要:Spring Cloud是一个相对比较新的微服务框架，今年(2016)推出1.0的release版本，目前Github上更新速度很快. 虽然Spring Cloud时间最短, 但是相比Dubbo等RPC框架, Spring Cloud提供的全套的分布式系统解决方案。spring cloud 为开发者提供了在分布式系统（配置管理，服务发现，熔断，路由，微代理，控制总线，一次性token，全局琐，leader选举，分布式session，集群状态）中快速构建的工具，使用Spring Cloud的开发者可以快速的启动服务或构建应用．它们将在任何分布式环境中工作，包括开发人员自己的笔记本电脑，裸物理机的数据中心，和像Cloud Foundry云管理平台。在未来引领这微服务架构的发展，提供业界标准的一套微服务架构解决方案。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-10-18T02:00:00.000Z" class="post-list__meta--date date">2016-10-18</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud/">Spring Cloud</a>
+</span><a class="btn-border-small" href="/sc-introduce/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 吕清燕 - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建。
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

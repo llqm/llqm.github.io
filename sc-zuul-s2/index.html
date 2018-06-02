@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Spring Cloud Zuul遗失的世界(二) | 诺诺清蔓</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="一个对技术追求的Java萌妹子">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Spring Cloud Zuul遗失的世界(二) | 诺诺清蔓">
+    <meta name="twitter:description" content="一个对技术追求的Java萌妹子">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Spring Cloud Zuul遗失的世界(二) | 诺诺清蔓">
+    <meta property="og:description" content="一个对技术追求的Java萌妹子">
+
+    
+    <meta name="author" content="吕清燕">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="诺诺清蔓" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://lvqingyan.com/sc-zuul-s2/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(http://simg.sinajs.cn/blog7newtpl/image/30/30_2/images/bg.gif)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 诺诺清蔓 的主页"><img src="/images/avatar.jpg" width="120" alt="诺诺清蔓 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for 诺诺清蔓">诺诺清蔓</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">简单，美好，奋发</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">一个对技术追求的Java萌妹子</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+            <li class="navigation__item"><a href="/">首页</a></li>
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">文字阁</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/llqm" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/llqm" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-disabled"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-08-14T06:00:00.000Z" class="post-list__meta--date date">2017-08-14</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+ </span>
+      <span class="page-pv">
+       阅读 <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Spring Cloud Zuul遗失的世界(二)</h1>
+  </header>
+
+  <section class="post">
+    <p>  <strong>摘要</strong>:  接着上一篇《Spring Cloud Zuul遗失的世界(一)》，ZuulController继承了ServletWrappingController，将当前应用中的ZuulServlet直接包装为一个Controller，暴露为入口访问，在本篇文章中介绍etflix-zuul-core的代码Zuul的执行的生命周期等。</p>
+<h2 id="一-Netflix-zuul-core源码分析"><a href="#一-Netflix-zuul-core源码分析" class="headerlink" title="一.Netflix zuul core源码分析"></a>一.Netflix zuul core源码分析</h2><p>com.netflix.zuul.http.ZuulServlet是ZuulFilter链执行的入口，通过service方法，提取请求到RequestContext，然后通过调用ZuulRunner，依次按顺序执行每种类型的Filter，完成整个Filter的生命周期，架构图如下所示。</p>
+<a id="more"></a>
+<p><img src="http://upload-images.jianshu.io/upload_images/2279594-2e6134e4743b0483.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="zuul.png"></p>
+<h3 id="1-1-ZuulServlet代码分析"><a href="#1-1-ZuulServlet代码分析" class="headerlink" title="1.1 ZuulServlet代码分析"></a>1.1 ZuulServlet代码分析</h3><p><a href="https://camo.githubusercontent.com/4eb7754152028cdebd5c09d1c6f5acc7683f0094/687474703a2f2f6e6574666c69782e6769746875622e696f2f7a75756c2f696d616765732f7a75756c2d726571756573742d6c6966656379636c652e706e67" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/4eb7754152028cdebd5c09d1c6f5acc7683f0094/687474703a2f2f6e6574666c69782e6769746875622e696f2f7a75756c2f696d616765732f7a75756c2d726571756573742d6c6966656379636c652e706e67" alt="zuul-request-lifecycle"></a></p>
+<p>在ZuulConfiguration中点击com.netflix.zuul.http.ZuulServlet打开代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">3374242278843351500L</span>;</div><div class="line">    <span class="keyword">private</span> ZuulRunner zuulRunner;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ServletConfig config)</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">        <span class="keyword">super</span>.init(config);</div><div class="line"></div><div class="line">        String bufferReqsStr = config.getInitParameter(<span class="string">"buffer-requests"</span>);</div><div class="line">        <span class="keyword">boolean</span> bufferReqs = bufferReqsStr != <span class="keyword">null</span> &amp;&amp; bufferReqsStr.equals(<span class="string">"true"</span>) ? <span class="keyword">true</span> : <span class="keyword">false</span>;</div><div class="line"></div><div class="line">        zuulRunner = <span class="keyword">new</span> ZuulRunner(bufferReqs);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(javax.servlet.ServletRequest servletRequest, javax.servlet.ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//调用zuulRunner.init(servletRequest, servletResponse)进行请求上下文的传递</span></div><div class="line">            init((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);</div><div class="line"></div><div class="line">            <span class="comment">// Marks this request as having passed through the "Zuul engine", as opposed to servlets</span></div><div class="line">            <span class="comment">// explicitly bound in web.xml, for which requests will not have the same data attached</span></div><div class="line">            RequestContext context = RequestContext.getCurrentContext();</div><div class="line">            context.setZuulEngineRan();</div><div class="line"></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                preRoute();</div><div class="line">            &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</div><div class="line">                error(e);</div><div class="line">                postRoute();</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                route();</div><div class="line">            &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</div><div class="line">                error(e);</div><div class="line">                postRoute();</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                postRoute();</div><div class="line">            &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</div><div class="line">                error(e);</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">            error(<span class="keyword">new</span> ZuulException(e, <span class="number">500</span>, <span class="string">"UNHANDLED_EXCEPTION_"</span> + e.getClass().getName()));</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            RequestContext.getCurrentContext().unset();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 执行 "post" ZuulFilters</div><div class="line">     *</div><div class="line">     * <span class="doctag">@throws</span> ZuulException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">postRoute</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</div><div class="line">        zuulRunner.postRoute();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 执行 "route" filters</div><div class="line">     *</div><div class="line">     * <span class="doctag">@throws</span> ZuulException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">route</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</div><div class="line">        zuulRunner.route();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 执行 "pre" filters</div><div class="line">     *</div><div class="line">     * <span class="doctag">@throws</span> ZuulException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">preRoute</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</div><div class="line">        zuulRunner.preRoute();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * initializes request</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> servletRequest</div><div class="line">     * <span class="doctag">@param</span> servletResponse</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(HttpServletRequest servletRequest, HttpServletResponse servletResponse)</span> </span>&#123;</div><div class="line">        zuulRunner.init(servletRequest, servletResponse);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * sets error context info and executes "error" filters</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> e</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">error</span><span class="params">(ZuulException e)</span> </span>&#123;</div><div class="line">        RequestContext.getCurrentContext().setThrowable(e);</div><div class="line">        zuulRunner.error();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如上所示，ZuulServlet其实就是一个Servlet，service方法包含了Zuul的整个生命周期。</p>
+</blockquote>
+<h4 id="1-1-1-ZuulServlet-init代码拆解分析"><a href="#1-1-1-ZuulServlet-init代码拆解分析" class="headerlink" title="1.1.1 ZuulServlet init代码拆解分析"></a>1.1.1 ZuulServlet init代码拆解分析</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//init() - 注册一个ZuulRunner用于调用整个filter 链</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(HttpServletRequest servletRequest, HttpServletResponse servletResponse)</span> </span>&#123;</div><div class="line">        zuulRunner.init(servletRequest, servletResponse);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h4 id="1-1-2-ZuulServlet-service代码分析"><a href="#1-1-2-ZuulServlet-service代码分析" class="headerlink" title="1.1.2 ZuulServlet service代码分析"></a>1.1.2 ZuulServlet service代码分析</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 调用init将req,res置入上下文.获取并标记上下文此session已经通过进入</span></div><div class="line"><span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(javax.servlet.ServletRequest servletRequest, javax.servlet.ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">     <span class="keyword">try</span> &#123;</div><div class="line">         init((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);</div><div class="line"></div><div class="line">         <span class="comment">// Marks this request as having passed through the "Zuul engine", as opposed to servlets</span></div><div class="line">         <span class="comment">// explicitly bound in web.xml, for which requests will not have the same data attached</span></div><div class="line">         RequestContext context = RequestContext.getCurrentContext();</div><div class="line">         context.setZuulEngineRan();</div><div class="line"></div><div class="line">         <span class="keyword">try</span> &#123;</div><div class="line">             preRoute();</div><div class="line">         &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</div><div class="line">             error(e);</div><div class="line">             postRoute();</div><div class="line">             <span class="keyword">return</span>;</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">try</span> &#123;</div><div class="line">             route();</div><div class="line">         &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</div><div class="line">             error(e);</div><div class="line">             postRoute();</div><div class="line">             <span class="keyword">return</span>;</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">try</span> &#123;</div><div class="line">             postRoute();</div><div class="line">         &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</div><div class="line">             error(e);</div><div class="line">             <span class="keyword">return</span>;</div><div class="line">         &#125;</div><div class="line"></div><div class="line">     &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">         error(<span class="keyword">new</span> ZuulException(e, <span class="number">500</span>, <span class="string">"UNHANDLED_EXCEPTION_"</span> + e.getClass().getName()));</div><div class="line">     &#125; <span class="keyword">finally</span> &#123;</div><div class="line">         RequestContext.getCurrentContext().unset();</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>正常情况下，请求只经过pre -&gt; route -&gt; post。<br>两层try…catch，内层只捕获ZuulException，而其他异常由外层捕获。<br>内层3个try…catch语句，只有pre,route抛出ZuulException时，才会执行errror，再执行post。而当post(88行)抛出ZuulException后，只会执行error。<br>外层捕获其他异常(内层try语句块中抛出的非ZuulException异常以及内层catch语句中抛出的所有异常)后，将HTTP状态码设置为500，同时交给error处理。<br>整个流程的终点有两个：post及error；而非只有post一个。</p>
+</blockquote>
+<h3 id="1-2-Zuul的请求上下文-RequestContext"><a href="#1-2-Zuul的请求上下文-RequestContext" class="headerlink" title="1.2 Zuul的请求上下文 RequestContext"></a>1.2 Zuul的请求上下文 RequestContext</h3><p> com.netflix.zuul.context.RequestContext继承了ConcurrentHashMap<string, object="">，是Zuul Filter生命周期中处理http请求上下文,是一个threadlocal的Map.</string,></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequestContext</span> <span class="keyword">extends</span> <span class="title">ConcurrentHashMap</span>&lt;<span class="title">String</span>, <span class="title">Object</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(RequestContext.class);</div><div class="line"></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">static</span> Class&lt;? extends RequestContext&gt; contextClass = RequestContext.class;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> RequestContext testContext = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;? extends RequestContext&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;RequestContext&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> RequestContext <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">return</span> contextClass.newInstance();</div><div class="line">            &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    <span class="comment">//其余省略</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="1-3-ContextLifecycleFilter"><a href="#1-3-ContextLifecycleFilter" class="headerlink" title="1.3  ContextLifecycleFilter"></a>1.3  ContextLifecycleFilter</h3><p> com.netflix.zuul.context.ContextLifecycleFilter是调用链外围finally中remove上文中threadlocal.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContextLifecycleFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest req, ServletResponse res, FilterChain chain)</span></span></div><div class="line">        <span class="keyword">throws</span> IOException, ServletException &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            chain.doFilter(req, res);</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            RequestContext.getCurrentContext().unset();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="1-4-Zuul的运行执行器-ZuulRunner"><a href="#1-4-Zuul的运行执行器-ZuulRunner" class="headerlink" title="1.4 Zuul的运行执行器-ZuulRunner"></a>1.4 Zuul的运行执行器-ZuulRunner</h3><p>com.netflix.zuul.ZuulRunner，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulRunner</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> bufferRequests;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Creates a new &lt;code&gt;ZuulRunner&lt;/code&gt; instance.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ZuulRunner</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.bufferRequests = <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> bufferRequests - whether to wrap the ServletRequest in HttpServletRequestWrapper and buffer the body.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ZuulRunner</span><span class="params">(<span class="keyword">boolean</span> bufferRequests)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.bufferRequests = bufferRequests;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * sets HttpServlet request and HttpResponse</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> servletRequest</div><div class="line">     * <span class="doctag">@param</span> servletResponse</div><div class="line">     */</div><div class="line">    <span class="comment">// ZuulRunner内传入的req/res就会被替换为wrapper类增强功能:</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(HttpServletRequest servletRequest, HttpServletResponse servletResponse)</span> </span>&#123;</div><div class="line"></div><div class="line">        RequestContext ctx = RequestContext.getCurrentContext();</div><div class="line">        <span class="keyword">if</span> (bufferRequests) &#123;</div><div class="line">            ctx.setRequest(<span class="keyword">new</span> HttpServletRequestWrapper(servletRequest));</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            ctx.setRequest(servletRequest);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        ctx.setResponse(<span class="keyword">new</span> HttpServletResponseWrapper(servletResponse));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>com.netflix.zuul.filters.ZuulServletFilter跟跟ZuulServlet是同一份代码.<br>com.netflix.zuul.monitoring，预留了CounterFactory与TracerFactory的接口，用来扩展实现counter与timer.</p>
+</blockquote>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-zuul-s3/" title="Spring Cloud Zuul遗失的世界(三)">Spring Cloud Zuul遗失的世界(三)</a></h2>
+                <p class="excerpt">
+                
+                 摘要:  接着上一篇《Spring Cloud Zuul遗失的世界(二)》，本文主要介绍Netflix Zuul core模块的Filter链的设计和Fifter Loader和Filter Manager相关代码的设计与分析。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-08-15T06:00:00.000Z" class="post-list__meta--date date">2017-08-15</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+</span><a class="btn-border-small" href="/sc-zuul-s3/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-zuul-s1/" title="Spring Cloud Zuul遗失的世界(一)">Spring Cloud Zuul遗失的世界(一)</a></h2>
+                <p class="excerpt">
+                
+                 摘要:  Zuul作为java网关届的鼻祖，2016年自研网关中间件的时候，对其源码看了很多次，经过两大互联网公司中间件的洗礼之后，目前轮到自己设计一个网关中间件纳管Spring Cloud。最近抽空把自己的理解，备注一下。由于Spring cloud整合Zuul的代码过多。本文主要介绍Spring Cloud对Netflix Zuul高度抽象封装整合部分。即spring-cloud-netflix-core的代码。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-08-13T06:00:00.000Z" class="post-list__meta--date date">2017-08-13</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+</span><a class="btn-border-small" href="/sc-zuul-s1/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 吕清燕 - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建。
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

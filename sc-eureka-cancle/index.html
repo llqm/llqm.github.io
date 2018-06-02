@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Spring Cloud Eureka服务下线(Cancel)源码分析 | 诺诺清蔓</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="一个对技术追求的Java萌妹子">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Spring Cloud Eureka服务下线(Cancel)源码分析 | 诺诺清蔓">
+    <meta name="twitter:description" content="一个对技术追求的Java萌妹子">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Spring Cloud Eureka服务下线(Cancel)源码分析 | 诺诺清蔓">
+    <meta property="og:description" content="一个对技术追求的Java萌妹子">
+
+    
+    <meta name="author" content="吕清燕">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="诺诺清蔓" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://lvqingyan.com/sc-eureka-cancle/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(http://simg.sinajs.cn/blog7newtpl/image/30/30_2/images/bg.gif)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 诺诺清蔓 的主页"><img src="/images/avatar.jpg" width="120" alt="诺诺清蔓 logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for 诺诺清蔓">诺诺清蔓</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">简单，美好，奋发</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">一个对技术追求的Java萌妹子</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+            <li class="navigation__item"><a href="/">首页</a></li>
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">文字阁</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/llqm" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/llqm" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-disabled"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-11-19T06:00:00.000Z" class="post-list__meta--date date">2016-11-19</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Eureka/">Spring Cloud Eureka</a>, <a class="tag-link" href="/tags/Spring-Cloud-源码分析/">Spring Cloud 源码分析</a>
+ </span>
+      <span class="page-pv">
+       阅读 <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Spring Cloud Eureka服务下线(Cancel)源码分析</h1>
+  </header>
+
+  <section class="post">
+    <p><strong>摘要</strong>:在本篇文章中主要对Eureka的Cancel(服务下线)进行源码分析，在Service Provider服务shut down的时候，需要及时通知Eureka Server把自己剔除，从而避免其它客户端调用已经下线的服务，导致服务不可用。</p>
+<h2 id="Cancel-服务下线"><a href="#Cancel-服务下线" class="headerlink" title="Cancel(服务下线)"></a>Cancel(服务下线)</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>在Service Provider服务shut down的时候，需要及时通知Eureka Server把自己剔除，从而避免客户端调用已经下线的服务。</p>
+<h2 id="服务提供者端源码分析"><a href="#服务提供者端源码分析" class="headerlink" title="服务提供者端源码分析"></a>服务提供者端源码分析</h2><ol>
+<li>在eureka-client-1.4.1中的com.netflix.discovery.DiscoveryClient中shutdown()的<code>867</code>行。<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * Shuts down Eureka Client. Also sends a deregistration request to the</div><div class="line">    * eureka server.</div><div class="line">    */</div><div class="line">   <span class="meta">@PreDestroy</span></div><div class="line">   <span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">shutdown</span><span class="params">()</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span> (isShutdown.compareAndSet(<span class="keyword">false</span>, <span class="keyword">true</span>)) &#123;</div><div class="line">           logger.info(<span class="string">"Shutting down DiscoveryClient ..."</span>);</div><div class="line"></div><div class="line">           <span class="keyword">if</span> (statusChangeListener != <span class="keyword">null</span> &amp;&amp; applicationInfoManager != <span class="keyword">null</span>) &#123;</div><div class="line">               applicationInfoManager.unregisterStatusChangeListener(statusChangeListener.getId());</div><div class="line">           &#125;</div><div class="line"></div><div class="line">           cancelScheduledTasks();</div><div class="line"></div><div class="line">           <span class="comment">// If APPINFO was registered</span></div><div class="line">           <span class="keyword">if</span> (applicationInfoManager != <span class="keyword">null</span> &amp;&amp; clientConfig.shouldRegisterWithEureka()) &#123;</div><div class="line">               applicationInfoManager.setInstanceStatus(InstanceStatus.DOWN);</div><div class="line">               <span class="comment">//调用下线接口</span></div><div class="line">               unregister();</div><div class="line">           &#125;</div><div class="line"></div><div class="line">           <span class="keyword">if</span> (eurekaTransport != <span class="keyword">null</span>) &#123;</div><div class="line">               eurekaTransport.shutdown();</div><div class="line">           &#125;</div><div class="line"></div><div class="line">           heartbeatStalenessMonitor.shutdown();</div><div class="line">           registryStalenessMonitor.shutdown();</div><div class="line"></div><div class="line">           logger.info(<span class="string">"Completed shut down of DiscoveryClient"</span>);</div><div class="line">       &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p><code>Tips</code> <code>@PreDestroy</code>注解或<code>shutdown()</code>的方法是服务下线的入口</p>
+</blockquote>
+<ol>
+<li>在eureka-client-1.4.1中的<code>com.netflix.discovery.DiscoveryClient</code>中<code>unregister（）</code>的<code>897</code>行<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/**</span></div><div class="line">  * unregister w/ the eureka service.</div><div class="line">  */</div><div class="line"> <span class="function"><span class="keyword">void</span> <span class="title">unregister</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// It can be null if shouldRegisterWithEureka == false</span></div><div class="line">  <span class="keyword">if</span>(eurekaTransport != <span class="keyword">null</span> &amp;&amp; eurekaTransport.registrationClient != <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">         logger.info(<span class="string">"Unregistering ..."</span>);</div><div class="line">         <span class="comment">//发送服务下线请求</span></div><div class="line">         EurekaHttpResponse&lt;Void&gt; httpResponse = eurekaTransport.registrationClient.cancel(instanceInfo.getAppName(), instanceInfo.getId());</div><div class="line">         logger.info(PREFIX + appPathIdentifier + <span class="string">" - deregister  status: "</span> + httpResponse.getStatusCode());</div><div class="line">      &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                logger.error(PREFIX + appPathIdentifier + <span class="string">" - de-registration failed"</span> + e.getMessage(), e);</div><div class="line">      &#125;</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="Eureka-Server服务下线实现细节"><a href="#Eureka-Server服务下线实现细节" class="headerlink" title="Eureka Server服务下线实现细节"></a>Eureka Server服务下线实现细节</h2><ol>
+<li><p>在<code>com.netflix.eureka.resources.InstanceResource</code>中的<code>280</code>行中的<code>cancelLease()</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@DELETE</span></div><div class="line"><span class="function"><span class="keyword">public</span> Response <span class="title">cancelLease</span><span class="params">(</span></span></div><div class="line"> @HeaderParam(PeerEurekaNode.HEADER_REPLICATION) String isReplication) &#123;</div><div class="line">   <span class="comment">//调用cancel</span></div><div class="line">   <span class="keyword">boolean</span> isSuccess = registry.cancel(app.getName(), id,</div><div class="line">                <span class="string">"true"</span>.equals(isReplication));</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (isSuccess) &#123;</div><div class="line">     logger.debug(<span class="string">"Found (Cancel): "</span> + app.getName() + <span class="string">" - "</span> + id);</div><div class="line">            <span class="keyword">return</span> Response.ok().build();</div><div class="line">   &#125; <span class="keyword">else</span> &#123;</div><div class="line">     logger.info(<span class="string">"Not Found (Cancel): "</span> + app.getName() + <span class="string">" - "</span> + id);</div><div class="line">            <span class="keyword">return</span> Response.status(Status.NOT_FOUND).build();</div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在<code>org.springframework.cloud.netflix.eureka.server.InstanceRegistry</code>中的<code>95</code>行的<code>cancel()</code>方法，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">(String appName, String serverId, <span class="keyword">boolean</span> isReplication)</span> </span>&#123;</div><div class="line">   handleCancelation(appName, serverId, isReplication);</div><div class="line">   <span class="comment">//调用父类中的cancel</span></div><div class="line">   <span class="keyword">return</span> <span class="keyword">super</span>.cancel(appName, serverId, isReplication);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在<code>com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl</code>中的<code>376</code>行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"> <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">(<span class="keyword">final</span> String appName, <span class="keyword">final</span> String id,</span></span></div><div class="line">                          <span class="keyword">final</span> <span class="keyword">boolean</span> isReplication) &#123;</div><div class="line">     <span class="keyword">if</span> (<span class="keyword">super</span>.cancel(appName, id, isReplication)) &#123;</div><div class="line">            <span class="comment">//服务下线成功后，同步更新信息到其它Eureka Server节点</span></div><div class="line">            replicateToPeers(Action.Cancel, appName, id, <span class="keyword">null</span>, <span class="keyword">null</span>, isReplication);</div><div class="line">            <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>.expectedNumberOfRenewsPerMin &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="comment">// Since the client wants to cancel it, reduce the threshold (1 for 30 seconds, 2 for a minute)</span></div><div class="line">                    <span class="keyword">this</span>.expectedNumberOfRenewsPerMin = <span class="keyword">this</span>.expectedNumberOfRenewsPerMin - <span class="number">2</span>;</div><div class="line">                    <span class="keyword">this</span>.numberOfRenewsPerMinThreshold =</div><div class="line">                            (<span class="keyword">int</span>) (<span class="keyword">this</span>.expectedNumberOfRenewsPerMin * serverConfig.getRenewalPercentThreshold());</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">     &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>4.在com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl中的<code>618</code>行，主要接口实现方式和register基本一致：首先更新自身Eureka Server中服务的状态，再同步到其它Eureka Server中。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">replicateToPeers</span><span class="params">(Action action, String appName, String id,</span></span></div><div class="line">                                  InstanceInfo info <span class="comment">/* optional */</span>,</div><div class="line">                                  InstanceStatus newStatus <span class="comment">/* optional */</span>, <span class="keyword">boolean</span> isReplication) &#123;</div><div class="line">        Stopwatch tracer = action.getTimer().start();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">if</span> (isReplication) &#123;</div><div class="line">                numberOfReplicationsLastMin.increment();</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// If it is a replication already, do not replicate again as this will create a poison replication</span></div><div class="line">            <span class="keyword">if</span> (peerEurekaNodes == Collections.EMPTY_LIST || isReplication) &#123;</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 同步把服务信息同步到其它的Eureka Server中</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">final</span> PeerEurekaNode node : peerEurekaNodes.getPeerEurekaNodes()) &#123;</div><div class="line">                <span class="comment">// If the url represents this host, do not replicate to yourself.</span></div><div class="line">                <span class="keyword">if</span> (peerEurekaNodes.isThisMyUrl(node.getServiceUrl())) &#123;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">//根据action做相应操作的同步</span></div><div class="line">                replicateInstanceActionsToPeers(action, appName, id, info, newStatus, node);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            tracer.stop();</div><div class="line">        &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>至此，Eureka服务续约源码分析结束，大家有兴趣可自行阅读。</p>
+<h3 id="源码分析链接"><a href="#源码分析链接" class="headerlink" title="源码分析链接"></a>源码分析链接</h3><p> 其它源码分析链接:<br> Spring Cloud中@EnableEurekaClient源码分析:<br> <a href="http://xujin.org/sc/sc-enableEurekaClient-annonation/" target="_blank" rel="external">http://xujin.org/sc/sc-enableEurekaClient-annonation/</a><br> Spring Cloud Eureka服务注册源码分析：<br> <a href="http://xujin.org/sc/sc-eureka-register/" target="_blank" rel="external">http://xujin.org/sc/sc-eureka-register/</a><br> Spring Cloud Eureka服务续约(Renew)源码分析<br> <a href="http://xujin.org/sc/sc-eureka-renew/" target="_blank" rel="external">http://xujin.org/sc/sc-eureka-renew/</a></p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-fx1/" title="爱油科技基于SpringCloud的微服务实践">爱油科技基于SpringCloud的微服务实践</a></h2>
+                <p class="excerpt">
+                
+                爱油科技基于SpringCloud的微服务实践个人简介刘思贤（微博@starlight36），爱油科技架构师、PMP。主要负责业务平台架构设计，DevOps实施和研发过程持续改进等，关注领域驱动设计与微服务、建设高效团队和工程师文化培养。
+摘要本次分享主要介绍了爱油科技基于Docker和Spring Cloud将整体业务微服务化的一些实践经验，主要包括：
+
+微服务架构的分层和框架选型
+服务发现和配置管理
+服务集成和服务质量保证
+基于领域驱动设计
+实施DevOps
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-22T06:00:00.000Z" class="post-list__meta--date date">2016-11-22</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Eureka/">Spring Cloud Eureka</a>, <a class="tag-link" href="/tags/实践分享/">实践分享</a>
+</span><a class="btn-border-small" href="/sc-fx1/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/sc-eureka-renew/" title="Spring Cloud Eureka服务续约(Renew)源码分析">Spring Cloud Eureka服务续约(Renew)源码分析</a></h2>
+                <p class="excerpt">
+                
+                摘要:在本篇文章中主要对Eureka的Renew(服务续约)，从服务提供者发起续约请求开始分析，通过阅读源码和画时序图的方式，展示Eureka服务续约的整个生命周期。服务续约主要是把服务续约的信息更新到自身的Eureka Server中，然后再同步到其它Eureka Server中。
+Renew(服务续约)概述Renew（服务续约）操作由Service Provider定期调用，类似于heartbeat。目的是隔一段时间Service Provider调用接口，告诉Eureka Server它还活着没挂，不要把它T了。通俗的说就是它们两之间的心跳检测，避免服务提供者被剔除掉。请参考:Spring Cloud Eureka名词解释
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-13T06:00:00.000Z" class="post-list__meta--date date">2016-11-13</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Eureka/">Spring Cloud Eureka</a>, <a class="tag-link" href="/tags/Spring-Cloud-源码分析/">Spring Cloud 源码分析</a>
+</span><a class="btn-border-small" href="/sc-eureka-renew/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2018 吕清燕 - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建。
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>
