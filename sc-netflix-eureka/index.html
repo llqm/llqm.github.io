@@ -228,15 +228,16 @@
                
             <div class="read-more-item">
                 <span class="read-more-item-dim">最近的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/sc-eureka-mid/" title="Spring Cloud Netflix之Eureka下篇原理">Spring Cloud Netflix之Eureka下篇原理</a></h2>
+                <h2 class="post-list__post-title post-title"><a href="/sc-zuul-01/" title="Spring  Cloud Zuul的URL转发和路由规则">Spring  Cloud Zuul的URL转发和路由规则</a></h2>
                 <p class="excerpt">
                 
-                摘要:本文主要介绍Eureka的工作原理，Eureka 组件分为两部分：Eureka server和 Eureka client。而客户端又分为 Application Service 客户端和 Application Client 客户端两种。Eureka 的工作机制每个 region 都有自己的 Eureka 服务器集群，每个 zone 至少要有一个 Eureka 服务器以应对 zone 瘫痪。
+                摘要:最近开了《跟我学Spring Cloud》系列教程,由于最近比较忙，因此更新较慢。由于自己最近在研究基于Netty名为Janus的网关中间件分为janus-Server端和janus-console管控端，纳管Spring Cloud实现市面上网关85%以上的功能，将在2017年5月6号Spring Cloud中国社区北京技术沙龙分享。顺便抽时间把Spring Cloud Zuul相关的东西整理比较。在本篇文章中Spring Cloud的版本更换为Dalston.RELEASE，Spring Boot的版本为1.5.2.RELEASE。
+Spring Cloud Zuul Spring Cloud Zuul 通过与 Spring Cloud Eureka 进行整合，将自身注册到 Eureka Server中，与Eureka,Ribbon,Hystrix等整合，同时从 Eureka 中获得了所有其它微服务的实例信息。这样的设计通过把网关和服务治理整合到一起，Spring Cloud Zuul可以获取到服务注册信息，结合Ribbon，Hystrix等更好的实现路由转发，负载均衡等功能。想了解更多的内容，可以参考下面的中英文对照翻译文档。或者查看官网文档。   Spring Cloud Zuul中英文对照翻译①  Spring Cloud Zuul中英文对照翻译②   Spring Cloud Zuul中英文对照翻译③
                 &hellip;
                 </p>
-                <div class="post-list__meta"><time datetime="2016-10-25T06:00:00.000Z" class="post-list__meta--date date">2016-10-25</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Eureka/">Spring Cloud Eureka</a>
-</span><a class="btn-border-small" href="/sc-eureka-mid/">继续阅读</a></div>
+                <div class="post-list__meta"><time datetime="2017-04-30T06:00:00.000Z" class="post-list__meta--date date">2017-04-30</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+</span><a class="btn-border-small" href="/sc-zuul-01/">继续阅读</a></div>
                            
             </div>
         

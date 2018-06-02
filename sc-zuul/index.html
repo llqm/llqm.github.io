@@ -217,22 +217,16 @@
                
             <div class="read-more-item">
                 <span class="read-more-item-dim">最近的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/sc-fegin01/" title="快速使用Spring Cloud Feign作为客户端调用服务提供者">快速使用Spring Cloud Feign作为客户端调用服务提供者</a></h2>
+                <h2 class="post-list__post-title post-title"><a href="/sc-ribbon-demoted/" title="在Spring Cloud中实现降级之权重路由和标签路由">在Spring Cloud中实现降级之权重路由和标签路由</a></h2>
                 <p class="excerpt">
                 
-                前言 在使用Spring Cloud开发微服务应用时中，各个微服务服务提供者都是以HTTP接口的形式对外提供服务，因此服务消费者在调用服务提供者时，通过HTTP Client的方式访问。当然我们可以使用JDK原生的URLConnection、Apache的Http Client、Netty的异步HTTP Client, Spring的RestTemplate去实现服务间的调用。Spring Cloud对Fegin进行了增强，使Fegin支持了Spring MVC的注解，并整合了Ribbon和Eureka，从而让Fegin的使用更加方便。
-Feign简介Feign是一种声明式、模板化的HTTP客户端。在Spring Cloud中使用Feign, 可以做到使用HTTP请求远程服务时能就像调用本地方法一样的体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。Feign的Github网址,比如：Feign具有如下特性：
-
-可插拔的注解支持，包括Feign注解和JAX-RS注解
-支持可插拔的HTTP编码器和解码器
-支持Hystrix和它的Fallback
-支持Ribbon的负载均衡
-支持HTTP请求和响应的压缩
+                前言 限流、降级、灰度是服务治理的一个很重要的功能。本文参考Spring Cloud中国社区的VIP会员-何鹰的博客-整理Dubbo自带服务降级、限流功能，spring cloud并没有提供此功能，只能由我们自行实现。这里的限流、降级、灰度都是针对服务实例级别，并不是整个服务级别，整个服务级别可以通过实例部署数量来实现。
+限流降级设计场景服务A，部署了3个实例A1、A2、A3。spring cloud默认客户端负载均衡策略是采用轮询方式，A1、A2、A3三个实例流量均分，各1/3。如果这个时候需要将服务A由1.0版升级至2.0版，我们需要做的步骤是：将A1的流量降为0，柔性下线，关闭A1实例并升级到2.0，将A1流量提升为10%观察2.0线上运行情况，如果情况稳定，则逐步开放流量至不限制及1/3。依次在A2，A3上执行上述操作。在上述步骤中，我们想让特别的人使用2.0，其他人还是使用1.0版，稳定后再全员开放。
                 &hellip;
                 </p>
-                <div class="post-list__meta"><time datetime="2017-05-13T06:00:00.000Z" class="post-list__meta--date date">2017-05-13</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Fegin/">Spring Cloud Fegin</a>
-</span><a class="btn-border-small" href="/sc-fegin01/">继续阅读</a></div>
+                <div class="post-list__meta"><time datetime="2017-06-03T06:00:00.000Z" class="post-list__meta--date date">2017-06-03</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Ribbon/">Spring Cloud Ribbon</a>
+</span><a class="btn-border-small" href="/sc-ribbon-demoted/">继续阅读</a></div>
                            
             </div>
         

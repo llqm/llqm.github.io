@@ -249,19 +249,15 @@
                
             <div class="read-more-item">
                 <span class="read-more-item-dim">最近的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/sc-gateway/" title="Spring Cloud Gateway离开孵化器的变化">Spring Cloud Gateway离开孵化器的变化</a></h2>
+                <h2 class="post-list__post-title post-title"><a href="/sc-zuul-s1/" title="Spring Cloud Zuul遗失的世界(一)">Spring Cloud Zuul遗失的世界(一)</a></h2>
                 <p class="excerpt">
                 
-                摘要: Spring Cloud对Netflix的Zuul进行封装之后，Spring Cloud Zuul作为Spring Cloud的网关一直被大家使用用至今，在Spring Cloud的核心项目开发者Spencergibb的一篇博客The API Gateway is Dead! Long Live the API Gateway!中介绍了Zuul，Zuul 2以及为什么会有Spring Cloud Gateway,大家有兴趣可以看一下。本文将会对spring-cloud-gateway-mvc源码进行demo演示和简单分析。
-一.Spring Cloud Gateway概况1.1 什么是Spring Cloud GateWayA Gateway built on Spring Framework 5.0 and Spring Boot 2.0 providing routing and more。
-
-Spring Cloud Gateway是基于Spring 框架5.0版本和Spring Boot 2.0的版本构建，提供路由等功能。
-
+                 摘要:  Zuul作为java网关届的鼻祖，2016年自研网关中间件的时候，对其源码看了很多次，经过两大互联网公司中间件的洗礼之后，目前轮到自己设计一个网关中间件纳管Spring Cloud。最近抽空把自己的理解，备注一下。由于Spring cloud整合Zuul的代码过多。本文主要介绍Spring Cloud对Netflix Zuul高度抽象封装整合部分。即spring-cloud-netflix-core的代码。
                 &hellip;
                 </p>
-                <div class="post-list__meta"><time datetime="2017-07-08T06:00:00.000Z" class="post-list__meta--date date">2017-07-08</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Gateway/">Spring Cloud Gateway</a>
-</span><a class="btn-border-small" href="/sc-gateway/">继续阅读</a></div>
+                <div class="post-list__meta"><time datetime="2017-08-13T06:00:00.000Z" class="post-list__meta--date date">2017-08-13</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+</span><a class="btn-border-small" href="/sc-zuul-s1/">继续阅读</a></div>
                            
             </div>
         
@@ -269,15 +265,16 @@ Spring Cloud Gateway是基于Spring 框架5.0版本和Spring Boot 2.0的版本�
                
             <div class="read-more-item">
                 <span class="read-more-item-dim">更早的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/sc-feign-4xx/" title="Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题">Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题</a></h2>
+                <h2 class="post-list__post-title post-title"><a href="/sc-ribbon-demoted/" title="在Spring Cloud中实现降级之权重路由和标签路由">在Spring Cloud中实现降级之权重路由和标签路由</a></h2>
                 <p class="excerpt">
                 
-                前言 最近好几个小伙伴，问Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题。这个问题如果没有自定义异常自定义Code或者系统中没有自定义code为401或407的code，基本很少能碰到。刚好Spring Cloud中国社区的VIP会员任聪博客原文也遇到这个，经过和他交流之后。整理出这篇文章希望能帮助更多的人快速定位问题。
+                前言 限流、降级、灰度是服务治理的一个很重要的功能。本文参考Spring Cloud中国社区的VIP会员-何鹰的博客-整理Dubbo自带服务降级、限流功能，spring cloud并没有提供此功能，只能由我们自行实现。这里的限流、降级、灰度都是针对服务实例级别，并不是整个服务级别，整个服务级别可以通过实例部署数量来实现。
+限流降级设计场景服务A，部署了3个实例A1、A2、A3。spring cloud默认客户端负载均衡策略是采用轮询方式，A1、A2、A3三个实例流量均分，各1/3。如果这个时候需要将服务A由1.0版升级至2.0版，我们需要做的步骤是：将A1的流量降为0，柔性下线，关闭A1实例并升级到2.0，将A1流量提升为10%观察2.0线上运行情况，如果情况稳定，则逐步开放流量至不限制及1/3。依次在A2，A3上执行上述操作。在上述步骤中，我们想让特别的人使用2.0，其他人还是使用1.0版，稳定后再全员开放。
                 &hellip;
                 </p>
-                <div class="post-list__meta"><time datetime="2017-06-16T06:00:00.000Z" class="post-list__meta--date date">2017-06-16</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Feign/">Spring Cloud Feign</a>
-</span><a class="btn-border-small" href="/sc-feign-4xx/">继续阅读</a></div>
+                <div class="post-list__meta"><time datetime="2017-06-03T06:00:00.000Z" class="post-list__meta--date date">2017-06-03</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Ribbon/">Spring Cloud Ribbon</a>
+</span><a class="btn-border-small" href="/sc-ribbon-demoted/">继续阅读</a></div>
                        
             </div>
         

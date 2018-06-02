@@ -194,24 +194,6 @@
   
     
     <li>
-      <h2 class="post-list__post-title post-title"><a href="/sc-gateway/" title="link to post.title">Spring Cloud Gateway离开孵化器的变化</a></h2>
-      <p class="excerpt">
-    
-      摘要: Spring Cloud对Netflix的Zuul进行封装之后，Spring Cloud Zuul作为Spring Cloud的网关一直被大家使用用至今，在Spring Cloud的核心项目开发者Spencergibb的一篇博客The API Gateway is Dead! Long Live the API Gateway!中介绍了Zuul，Zuul 2以及为什么会有Spring Cloud Gateway,大家有兴趣可以看一下。本文将会对spring-cloud-gateway-mvc源码进行demo演示和简单分析。
-一.Spring Cloud Gateway概况1.1 什么是Spring Cloud GateWayA Gateway built on Spring Framework 5.0 and Spring Boot 2.0 providing routing and more。
-
-Spring Cloud Gateway是基于Spring 框架5.0版本和Spring Boot 2.0的版本构建，提供路由等功能。
-
-    &hellip;
-      </p>
-      <div class="post-list__meta"><time datetime="2017-07-08T06:00:00.000Z" class="post-list__meta--date date">2017-07-08</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Gateway/">Spring Cloud Gateway</a>
-</span><a class="btn-border-small" href="/sc-gateway/">继续阅读</a></div>
-      <hr class="post-list__divider" />
-    </li>
-  
-    
-    <li>
       <h2 class="post-list__post-title post-title"><a href="/sc-ribbon-demoted/" title="link to post.title">在Spring Cloud中实现降级之权重路由和标签路由</a></h2>
       <p class="excerpt">
     
@@ -222,27 +204,6 @@ Spring Cloud Gateway是基于Spring 框架5.0版本和Spring Boot 2.0的版本�
       <div class="post-list__meta"><time datetime="2017-06-03T06:00:00.000Z" class="post-list__meta--date date">2017-06-03</time> &#8226; <span class="post-list__meta--tags tags">于 
   <a class="tag-link" href="/tags/Spring-Cloud-Ribbon/">Spring Cloud Ribbon</a>
 </span><a class="btn-border-small" href="/sc-ribbon-demoted/">继续阅读</a></div>
-      <hr class="post-list__divider" />
-    </li>
-  
-    
-    <li>
-      <h2 class="post-list__post-title post-title"><a href="/sc-fegin01/" title="link to post.title">快速使用Spring Cloud Feign作为客户端调用服务提供者</a></h2>
-      <p class="excerpt">
-    
-      前言 在使用Spring Cloud开发微服务应用时中，各个微服务服务提供者都是以HTTP接口的形式对外提供服务，因此服务消费者在调用服务提供者时，通过HTTP Client的方式访问。当然我们可以使用JDK原生的URLConnection、Apache的Http Client、Netty的异步HTTP Client, Spring的RestTemplate去实现服务间的调用。Spring Cloud对Fegin进行了增强，使Fegin支持了Spring MVC的注解，并整合了Ribbon和Eureka，从而让Fegin的使用更加方便。
-Feign简介Feign是一种声明式、模板化的HTTP客户端。在Spring Cloud中使用Feign, 可以做到使用HTTP请求远程服务时能就像调用本地方法一样的体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。Feign的Github网址,比如：Feign具有如下特性：
-
-可插拔的注解支持，包括Feign注解和JAX-RS注解
-支持可插拔的HTTP编码器和解码器
-支持Hystrix和它的Fallback
-支持Ribbon的负载均衡
-支持HTTP请求和响应的压缩
-    &hellip;
-      </p>
-      <div class="post-list__meta"><time datetime="2017-05-13T06:00:00.000Z" class="post-list__meta--date date">2017-05-13</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Fegin/">Spring Cloud Fegin</a>
-</span><a class="btn-border-small" href="/sc-fegin01/">继续阅读</a></div>
       <hr class="post-list__divider" />
     </li>
   
@@ -276,34 +237,6 @@ Spring Cloud Zuul Spring Cloud Zuul 通过与 Spring Cloud Eureka 进行整合�
       <div class="post-list__meta"><time datetime="2017-04-30T06:00:00.000Z" class="post-list__meta--date date">2017-04-30</time> &#8226; <span class="post-list__meta--tags tags">于 
   <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
 </span><a class="btn-border-small" href="/sc-zuul-01/">继续阅读</a></div>
-      <hr class="post-list__divider" />
-    </li>
-  
-    
-    <li>
-      <h2 class="post-list__post-title post-title"><a href="/sc-eureka-02/" title="link to post.title">SC中Eureka Server的HA和安全身份验证</a></h2>
-      <p class="excerpt">
-    
-      摘要:在《跟我学Spring Cloud》中的上一篇文章中简单介绍了使用Eureka实现服务的注册与发现。在这篇文章中主要介绍一下Eureka Server注册中心的HA以及Eureka Server的身份验证。
-    &hellip;
-      </p>
-      <div class="post-list__meta"><time datetime="2017-03-25T06:00:00.000Z" class="post-list__meta--date date">2017-03-25</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Eureka/">Spring Cloud Eureka</a>
-</span><a class="btn-border-small" href="/sc-eureka-02/">继续阅读</a></div>
-      <hr class="post-list__divider" />
-    </li>
-  
-    
-    <li>
-      <h2 class="post-list__post-title post-title"><a href="/sc-eureka-01/" title="link to post.title">使用Spring Cloud Eureka实现服务注册与发现</a></h2>
-      <p class="excerpt">
-    
-      摘要:由于目前，网上的Spring Cloud的学习的案列，比较凌乱而且没有形成整个体系，因此特开一个专题为跟我学Spring Cloud，希望帮助到有需要的人。本文主要介绍如何使用Spring Cloud中的Eureka组件快速实现微服务的服务注册与发现。至于安全模式和Eureka Server的HA,后面的文章会详细介绍。如果您觉得，有想了解的内容，参与评论留言。
-    &hellip;
-      </p>
-      <div class="post-list__meta"><time datetime="2017-03-23T06:00:00.000Z" class="post-list__meta--date date">2017-03-23</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Eureka/">Spring Cloud Eureka</a>
-</span><a class="btn-border-small" href="/sc-eureka-01/">继续阅读</a></div>
       <hr class="post-list__divider" />
     </li>
   

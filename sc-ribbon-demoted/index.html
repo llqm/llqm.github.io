@@ -248,15 +248,15 @@
                
             <div class="read-more-item">
                 <span class="read-more-item-dim">最近的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/sc-feign-4xx/" title="Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题">Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题</a></h2>
+                <h2 class="post-list__post-title post-title"><a href="/sc-zuul-excpetion/" title="Spring Cloud Zuul异常处理">Spring Cloud Zuul异常处理</a></h2>
                 <p class="excerpt">
                 
-                前言 最近好几个小伙伴，问Spring Cloud项目中通过Feign进行内部服务调用发生401\407错误无返回信息的问题。这个问题如果没有自定义异常自定义Code或者系统中没有自定义code为401或407的code，基本很少能碰到。刚好Spring Cloud中国社区的VIP会员任聪博客原文也遇到这个，经过和他交流之后。整理出这篇文章希望能帮助更多的人快速定位问题。
+                最近看到了一个GitHub issue在讨论如何在post类型的zuul filter中设置response body，其中涉及到异常情况下，如何返回一个自定义的response body。正好我在升级spring-cloud，也想弄清楚，spring-cloud-zuul是如何处理异常情况的，所以就仔细看了看这部分的实现细节，现在做个笔记记录下来。
                 &hellip;
                 </p>
-                <div class="post-list__meta"><time datetime="2017-06-16T06:00:00.000Z" class="post-list__meta--date date">2017-06-16</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Feign/">Spring Cloud Feign</a>
-</span><a class="btn-border-small" href="/sc-feign-4xx/">继续阅读</a></div>
+                <div class="post-list__meta"><time datetime="2017-06-24T04:23:31.000Z" class="post-list__meta--date date">2017-06-24</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+</span><a class="btn-border-small" href="/sc-zuul-excpetion/">继续阅读</a></div>
                            
             </div>
         
@@ -264,22 +264,19 @@
                
             <div class="read-more-item">
                 <span class="read-more-item-dim">更早的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/sc-fegin01/" title="快速使用Spring Cloud Feign作为客户端调用服务提供者">快速使用Spring Cloud Feign作为客户端调用服务提供者</a></h2>
+                <h2 class="post-list__post-title post-title"><a href="/sc-zuul/" title="API GateWay(网关)那些儿事">API GateWay(网关)那些儿事</a></h2>
                 <p class="excerpt">
                 
-                前言 在使用Spring Cloud开发微服务应用时中，各个微服务服务提供者都是以HTTP接口的形式对外提供服务，因此服务消费者在调用服务提供者时，通过HTTP Client的方式访问。当然我们可以使用JDK原生的URLConnection、Apache的Http Client、Netty的异步HTTP Client, Spring的RestTemplate去实现服务间的调用。Spring Cloud对Fegin进行了增强，使Fegin支持了Spring MVC的注解，并整合了Ribbon和Eureka，从而让Fegin的使用更加方便。
-Feign简介Feign是一种声明式、模板化的HTTP客户端。在Spring Cloud中使用Feign, 可以做到使用HTTP请求远程服务时能就像调用本地方法一样的体验，开发者完全感知不到这是远程方法，更感知不到这是个HTTP请求。Feign的Github网址,比如：Feign具有如下特性：
+                前言:现在越来越多的技术团队开始尝试采纳微服务架构进行产品开发。而基于微服务架构后后端服务通常而言是动态的，为了简化前端的调用逻辑，通常会引入API Gateway作为轻量级网关，同时API Gateway中也会实现相关的认证逻辑从而简化内部服务之间相互调用的复杂度，这边文章我们就来聊聊API Gateway的那些事。 关键字：API Gateway, Spring Cloud Zuul, Nginx，Consul，Consul-Template。
+为什么需要API Gateway
+简化客户端调用复杂度
 
-可插拔的注解支持，包括Feign注解和JAX-RS注解
-支持可插拔的HTTP编码器和解码器
-支持Hystrix和它的Fallback
-支持Ribbon的负载均衡
-支持HTTP请求和响应的压缩
+在微服务架构模式下后端服务的实例数一般是动态的，对于客户端而言如何发现这些动态改变的服务实例的访问地址信息？因此在基于微服务的项目中为了简化前端的调用逻辑，通常会引入API Gateway作为轻量级网关，同时API Gateway中也会实现相关的认证逻辑从而简化内部服务之间相互调用的复杂度。
                 &hellip;
                 </p>
-                <div class="post-list__meta"><time datetime="2017-05-13T06:00:00.000Z" class="post-list__meta--date date">2017-05-13</time> &#8226; <span class="post-list__meta--tags tags">于 
-  <a class="tag-link" href="/tags/Spring-Cloud-Fegin/">Spring Cloud Fegin</a>
-</span><a class="btn-border-small" href="/sc-fegin01/">继续阅读</a></div>
+                <div class="post-list__meta"><time datetime="2017-05-10T06:00:00.000Z" class="post-list__meta--date date">2017-05-10</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Spring-Cloud-Zuul/">Spring Cloud Zuul</a>
+</span><a class="btn-border-small" href="/sc-zuul/">继续阅读</a></div>
                        
             </div>
         
